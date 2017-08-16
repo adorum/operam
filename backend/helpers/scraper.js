@@ -13,7 +13,6 @@ function scrapeData(rootId, path, array) {
                 size: node.subtree_size - 1
             };
             array.push(item);
-            console.log(array.length);
             if (node && node.num_children > 0) { // branch
                 return Promise.all(
                     data.synset.map(
@@ -26,8 +25,6 @@ function scrapeData(rootId, path, array) {
                                     size: child.$.subtree_size - 1
                                 };
                                 array.push(leatItem);
-
-                                console.log(array.length);
                             }
                         }
                     )
