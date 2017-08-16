@@ -3,6 +3,9 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require('fs');
+
+var scrapeData = require('./helpers/scraper.js');
 
 var users = require('./routes/users');
 
@@ -45,15 +48,21 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-    res.status(err.status || 500).json({ name: err.name || "undefined", error:  err.message });
+    res.status(err.status || 500).json({ name: err.name || 'undefined', error:  err.message });
 });
-
 
 app.set('port', process.env.PORT || 3000);
 
 var server = app.listen(app.get('port'), function() {
-    console.log('Express server listening on port ' +
-        server.address().port);
+    console.log(`Express server listening on port ${server.address().port}`);
+    console.log('Starting scraping data the web...');
+
+    const results = [];
+    scrapeData(82127, '', results).then(function() {
+        fs.writeFileSync('./result.json', JSON.stringify(results) , 'utf-8');
+        console.log('Scraping data finished successfully!');
+    });
+
 });
 
 module.exports = app;

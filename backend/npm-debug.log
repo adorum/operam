@@ -9,7 +9,7 @@
 6 silly lifecycle backend@1.0.0~prestart: no script for prestart, continuing
 7 info lifecycle backend@1.0.0~start: backend@1.0.0
 8 verbose lifecycle backend@1.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle backend@1.0.0~start: PATH: /home/andrej/.nvm/versions/node/v7.4.0/lib/node_modules/npm/bin/node-gyp-bin:/home/andrej/Projects/operam/backend/node_modules/.bin:/home/andrej/google-cloud-sdk/bin:/home/andrej/miniconda2/bin:/home/andrej/.nvm/versions/node/v7.4.0/bin:/usr/local/heroku/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+9 verbose lifecycle backend@1.0.0~start: PATH: /home/andrej/.nvm/versions/node/v7.4.0/lib/node_modules/npm/bin/node-gyp-bin:/home/andrej/Projects/operam/backend/node_modules/.bin:/home/andrej/google-cloud-sdk/bin:/home/andrej/miniconda2/bin:/home/andrej/.nvm/versions/node/v7.4.0/bin:/usr/local/heroku/bin:/home/andrej/google-cloud-sdk/bin:/home/andrej/miniconda2/bin:/usr/local/heroku/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
 10 verbose lifecycle backend@1.0.0~start: CWD: /home/andrej/Projects/operam/backend
 11 silly lifecycle backend@1.0.0~start: Args: [ '-c', 'node app.js' ]
 12 silly lifecycle backend@1.0.0~start: Returned: code: 1  signal: null
