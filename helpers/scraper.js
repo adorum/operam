@@ -1,5 +1,5 @@
 var rp = require('request-promise');
-var transform = require('./tranformation.js')
+var transform = require('./tranformation.js');
 
 var url = 'http://imagenet.stanford.edu/python/tree.py/SubtreeXML';
 
@@ -13,6 +13,7 @@ function scrapeData(rootId, path, array) {
                 size: node.subtree_size - 1
             };
             array.push(item);
+            console.log(item.name);
             if (node && node.num_children > 0) { // branch
                 return Promise.all(
                     data.synset.map(

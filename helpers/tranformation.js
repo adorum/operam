@@ -27,8 +27,7 @@ exports.transformXmlToJs = function(xmlString) {
     });
 }
 
-/*
-export function tranformArray2tree(array) {
+exports.tranformArray2tree = function(array) {
     if (array == null) {
         throw new Error('Input parameter can not be null value');
     }
@@ -57,4 +56,3 @@ export function tranformArray2tree(array) {
 
     return output[0];
 }
-*/
