@@ -7,7 +7,7 @@ var router = express.Router();
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   Category.find({}, function(err, categories) {
-    if(err) {
+    if (err) {
       console.error(err);
       res.status(500).send(err);
       return;
