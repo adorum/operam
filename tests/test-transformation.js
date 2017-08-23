@@ -1,7 +1,7 @@
 var transformation = require('../helpers/tranformation');
 var assert = require('assert');
 
-describe.only('transformation tests', function() {
+describe('transformation tests', function() {
   it('tranformArray2tree should thrown an exception #1', function() {
     assert.throws(function test() {
       transformation.tranformArray2tree(null);

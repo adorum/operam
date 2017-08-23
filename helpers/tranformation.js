@@ -67,7 +67,6 @@ exports.tranformArray2tree = function(array) {
 
     return output;
   } catch (e) {
-    console.error(`Erorr: ${e}`);
     throw new Error('Unable to transform array to three structure');
   }
 }
