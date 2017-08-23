@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import TreeView from './tree/TreeView';
 import Client from './utils/client';
-import {filter, setNodeId} from './utils/tree';
+import {filter, setNodesId} from './utils/tree';
 import './App.css';
 
 class App extends Component {
@@ -24,7 +24,7 @@ class App extends Component {
 
   componentDidMount() {
     Client.fetchCategories().then((data) => {
-      setNodeId(data);
+      setNodesId(data);
       this.setState({filteredData: data, data});
     }, (err) => {
       err.response.json().then((body) => {
