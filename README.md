@@ -17,7 +17,8 @@ You will need the following things properly installed on your computer.
 
 ## Running / Development
 
-* At first run `node scraper.js` to scrape the data and to store it to database
+* At first create an `.env` file in a project root and define the database credentials
+* Then run `node scraper.js` to scrape the data and to store it to database
 * In a new terminal run `npm start` to start the application
 * Application runs  in the browser on [http://localhost:3000](http://localhost:3000).
 

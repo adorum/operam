@@ -16,16 +16,17 @@ mongoose.connect(connectionString, {
   scrapeData(82127, '', results)
     .then(function() {
       console.log('Scraping data finished successfully!');
+      console.log('Saving to database...');
       return Category.deleteMany({})
         .then(function() {
           return Category.insertMany(results)
             .then(function() {
-              console.log('Scraped data saved to DB!');
+              console.log('Saved!');
               return Promise.resolve();
             });
         })
 
-    }, function(error) {
-      console.error(`Erorr occurred during scraping data: ${JSON.stringify(error)}`);
     });
+}).catch(function(error) {
+  console.error('Error occurred during scraping data');
 });
