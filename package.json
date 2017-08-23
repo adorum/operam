@@ -7,7 +7,7 @@
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "node server.js",
     "client": "node start-client.js",
-    "test": "cd client && npm run test"
+    "test": "node_modules/.bin/mocha tests/* && cd client && npm run test"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
@@ -24,6 +24,11 @@
     "xml2js": "^0.4.18"
   },
   "devDependencies": {
-    "concurrently": "^3.5.0"
+    "chai": "^4.1.1",
+    "concurrently": "^3.5.0",
+    "mocha": "^3.5.0",
+    "sinon": "^3.2.1",
+    "sinon-mongoose": "^2.0.2",
+    "supertest": "^3.0.0"
   }
 }
