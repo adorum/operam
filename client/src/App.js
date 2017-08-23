@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import TreeView from './tree/TreeView';
 import Client from './utils/client';
-import { filter, setNodeId } from './utils/tree';
+import {filter, setNodeId} from './utils/tree';
 import './App.css';
 
 class App extends Component {
@@ -11,7 +11,8 @@ class App extends Component {
     this.onSearchChanged = this.onSearchChanged.bind(this);
     this.state = {
       data: null,
-      filteredData: null
+      filteredData: null,
+      errorMessage: null
     };
   }
 
@@ -24,12 +25,20 @@ class App extends Component {
   componentDidMount() {
     Client.fetchCategories().then((data) => {
       setNodeId(data);
-      this.setState({data});
+      this.setState({filteredData: data, data});
+    }, (err) => {
+      err.response.json().then((body) => {
+        this.setState({errorMessage: body.error});
+      });
+
     });
   }
 
   render() {
-    if (this.state.data == null) {
+    if (this.state.errorMessage) {
+      return <div>{this.state.errorMessage}</div>;
+    }
+    if (!this.state.filteredData) {
       return <div>Loading...</div>;
     }
 
@@ -37,7 +46,7 @@ class App extends Component {
       <div className="App">
         <h1>Searchable tree structure</h1>
         <div><input type="text" placeholder="Search..." className="form-control" onChange={this.onSearchChanged}/></div>
-        <TreeView data={this.state.filteredData || this.state.data} expandToLevel={2}/>
+        <TreeView data={this.state.filteredData} expandToLevel={2}/>
       </div>
     );
   }

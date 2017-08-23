@@ -55,46 +55,39 @@ app.set('port', process.env.PORT || 3001);
 
 //Set up default mongoose connection
 var mongoDB = 'mongodb://operam:operam@ds145193.mlab.com:45193/operam';
+mongoose.Promise = global.Promise;
 mongoose.connect(mongoDB, {
-  useMongoClient: true
-}).then(function(db) {
-  var server = app.listen(app.get('port'), function() {
-    console.log(`Express server listening on port ${server.address().port}`);
-
-    Category.find({}).then(function(categories) {
-      if (!categories.length) {
-        console.log('Starting scraping data the web...');
-
-        (function downloadData() {
-          const results = [];
-          scrapeData(82127, '', results)
-            .then(function() {
-              Category.collection.insertMany(results);
-              Category.collection.save();
-              //fs.writeFileSync('./result.json', JSON.stringify(results) , 'utf-8');
-              console.log('Scraping data finished successfully!');
-            })
-            .catch(function(err) {
-              console.error('Erorr occurred during scraping data. Restarting...');
-              downloadData();
-            })
-        })();
-
-        /*
-                        // NOTE: THIS IS ONLY FOR DEV PUSPORSE: Read data from file instead of scrate then from server
-                        var obj = JSON.parse(fs.readFileSync('./result.json', 'utf8'));
-                        Category.collection.insertMany(obj);
-                        Category.collection.save();
-        */
-      } else {
-        console.log('Data are prepared to work.');
-      }
-    }, function(err) {
-      console.error(err);
+    useMongoClient: true
+  })
+  .then(function() {
+    console.log('Connection to mongoDB is now alive!');
+    app.listen(app.get('port'), function() {
+      console.log('Express server listening...');
+      Category.find({}).exec()
+        .then(function(docs) {
+          if (!docs.length) {
+            console.log('Starting scraping data the web...');
+            const results = [];
+            return scrapeData(82127, '', results)
+              .then(function() {
+                console.log('Scraping data finished successfully!');
+                return Category.insertMany(results)
+                  .then(function() {
+                    console.log('Scraped data saved to DB!');
+                    return Promise.resolve();
+                  });
+              }, function(error) {
+                console.error(`Erorr occurred during scraping data: ${JSON.stringify(error)}`);
+              });
+          } else {
+            console.log('Data are prepared to work.');
+          }
+        }, function(err) {
+          console.error(`Unable to fetch data from database: ${err}`);
+        })
     });
+  }, function(err) {
+    console.error('MongoDB connection error:');
   });
-}, function(err) {
-  console.error('MongoDB connection error:');
-});
 
 module.exports = app;

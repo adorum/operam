@@ -1,10 +1,12 @@
 var rp = require('request-promise');
+var requestPromiseRetry = require( 'request-promise-retry' );
 var transform = require('./tranformation.js');
 
 var url = 'http://imagenet.stanford.edu/python/tree.py/SubtreeXML';
+var httpClient = requestPromiseRetry(rp);
 
 function scrapeData(rootId, path, array) {
-  return rp(`${url}?rootid=${rootId}`)
+  return httpClient(`${url}?rootid=${rootId}`)
     .then(transform.transformXmlToJs)
     .then((data) => {
       var node = data.$;
@@ -13,7 +15,7 @@ function scrapeData(rootId, path, array) {
         size: node.subtree_size - 1
       };
       array.push(item);
-      console.log(item.name);
+      console.log(array.length);
       if (node && node.num_children > 0) { // branch
         return Promise.all(
           data.synset.map(
@@ -26,12 +28,13 @@ function scrapeData(rootId, path, array) {
                   size: child.$.subtree_size - 1
                 };
                 array.push(leatItem);
+                console.log(array.length);
               }
             }
           )
         );
       } else {
-        return null;
+        return Promise.resolve();
       }
     });
 }

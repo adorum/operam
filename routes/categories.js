@@ -6,15 +6,22 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  Category.find({}, function(err, categories) {
-    if (err) {
-      console.error(err);
-      res.status(500).send(err);
-      return;
-    }
-    const treeData = transform.tranformArray2tree(categories);
-    res.send(treeData);
-  });
+  Category.find({}).exec()
+    .then(function(docs) {
+      if (!docs.length) {
+        res.status(503).send({
+          name: 'SERVER IS WORKING',
+          error: 'Data are not ready yet. Please try again a bit later.'
+        });
+        return;
+      }
+
+      const treeData = transform.tranformArray2tree(docs);
+      res.send(treeData);
+    })
+    .catch(function(err) {
+      return next(err);
+    });
 });
 
 module.exports = router;
