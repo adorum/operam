@@ -10,14 +10,12 @@ describe('transformation tests', function() {
 
   it('tranformArray2tree should thrown an exception #2', function() {
     assert.throws(function test() {
-      transformation.tranformArray2tree([]);
-    }, /Input parameter can not be null or empty array/);
-  });
-
-  it('tranformArray2tree should thrown an exception #3', function() {
-    assert.throws(function test() {
       transformation.tranformArray2tree([{}]);
     }, /Unable to transform array to three structure/);
+  });
+
+  it('tranformArray2tree should return emprty array', function() {
+    assert.equal(transformation.tranformArray2tree([].length), [].length);
   });
 
   it('tranformArray2tree should return valid tree structure', function() {

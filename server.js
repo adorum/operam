@@ -3,9 +3,7 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var fs = require('fs');
 var mongoose = require('mongoose');
-var scrapeData = require('./helpers/scraper');
 var categories = require('./routes/categories');
 var Category = require('./models/category');
 var app = express();
@@ -67,28 +65,6 @@ mongoose.connect(connectionString, {
     console.log('Connection to mongoDB is now alive!');
     app.listen(PORT, function() {
       console.log(`Express server listening on port ${PORT}...`);
-      Category.find({}).exec()
-        .then(function(docs) {
-          if (!docs.length) {
-            console.log('Starting scraping data the web...');
-            const results = [];
-            return scrapeData(82127, '', results)
-              .then(function() {
-                console.log('Scraping data finished successfully!');
-                return Category.insertMany(results)
-                  .then(function() {
-                    console.log('Scraped data saved to DB!');
-                    return Promise.resolve();
-                  });
-              }, function(error) {
-                console.error(`Erorr occurred during scraping data: ${JSON.stringify(error)}`);
-              });
-          } else {
-            console.log('Data are prepared to work.');
-          }
-        }, function(err) {
-          console.error(`Unable to fetch data from database: ${err}`);
-        })
     });
   }, function(err) {
     console.error('MongoDB connection error:');

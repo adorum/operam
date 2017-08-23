@@ -19,7 +19,7 @@ describe('testing an categories route', function() {
 
     request(app)
       .get('/api/categories')
-      .expect(503)
+      .expect(200)
       .end(function(err, res) {
         if (err) {
           done(err);

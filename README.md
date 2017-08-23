@@ -17,7 +17,8 @@ You will need the following things properly installed on your computer.
 
 ## Running / Development
 
-* `npm start`
+* At first run `node scraper.js` to scrape the data and store it to database
+* Run `npm start` to start a web application
 * Application runs  in the browser on [http://localhost:3000](http://localhost:3000).
 
 ## Running Tests

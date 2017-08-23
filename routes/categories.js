@@ -8,14 +8,6 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   Category.find({}).exec()
     .then(function(docs) {
-      if (!docs.length) {
-        res.status(503).send({
-          name: 'SERVER IS WORKING',
-          error: 'Data are not ready yet. Please try again a bit later.'
-        });
-        return;
-      }
-
       const treeData = transform.tranformArray2tree(docs);
       res.send(treeData);
     })

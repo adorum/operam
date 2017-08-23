@@ -42,7 +42,7 @@ exports.transformXmlToJs = function(xmlString) {
  * @return {[array]}          Transformed tree structure
  */
 exports.tranformArray2tree = function(array) {
-  if (array == null || !array.length) {
+  if (array == null) {
     throw new Error('Input parameter can not be null or empty array');
   }
 
