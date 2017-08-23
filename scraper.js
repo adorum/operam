@@ -12,21 +12,22 @@ mongoose.Promise = global.Promise;
 mongoose.connect(connectionString, {
   useMongoClient: true
 }).then(function() {
-  var results = [];
-  scrapeData(82127, '', results)
+  var data = [];
+  return scrapeData(82127, '', data)
     .then(function() {
       console.log('Scraping data finished successfully!');
-      console.log('Saving to database...');
-      return Category.deleteMany({})
-        .then(function() {
-          return Category.insertMany(results)
-            .then(function() {
-              console.log('Saved!');
-              return Promise.resolve();
-            });
-        })
-
+      return data;
     });
+}).then(function(data) {
+  console.log('Saving to database...');
+  return Category.deleteMany({})
+    .then(function() {
+      return Category.insertMany(data);
+    });
+}).then(function() {
+  console.log('Saved!');
+  process.exit();
 }).catch(function(error) {
   console.error('Error occurred during scraping data');
+  process.exit(1);
 });
