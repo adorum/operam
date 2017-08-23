@@ -10,6 +10,8 @@ var categories = require('./routes/categories');
 var Category = require('./models/category');
 var app = express();
 
+require('dotenv').config();
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -54,9 +56,12 @@ app.use(function(err, req, res, next) {
 app.set('port', process.env.PORT || 3001);
 
 //Set up default mongoose connection
-var mongoDB = 'mongodb://operam:operam@ds145193.mlab.com:45193/operam';
+var dbUsername = process.env.DATABASE_USERNAME;
+var dbPassword = process.env.DATABASE_PASSWORD;
+
+var connectionString = `mongodb://${dbUsername}:${dbPassword}@ds145193.mlab.com:45193/operam`;
 mongoose.Promise = global.Promise;
-mongoose.connect(mongoDB, {
+mongoose.connect(connectionString, {
     useMongoClient: true
   })
   .then(function() {
