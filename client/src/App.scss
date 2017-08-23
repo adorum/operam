@@ -2,11 +2,26 @@
   padding: 20px 0;
   width: 50%;
   margin: auto;
+
+  .header {
+    h1 {
+      margin: 0;
+    }
+    display: flex;
+    padding: 10px 0;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .error {
   font-size: 15px;
-  color: red;
+  color: #a94442;
+}
+
+.warning {
+  font-size: 15px;
+  color: #8a6d3b;
 }
 
 .loading {

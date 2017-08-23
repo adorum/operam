@@ -17,10 +17,16 @@ You will need the following things properly installed on your computer.
 
 ## Running / Development
 
-* At first run `node scraper.js` to scrape the data and store it to database
-* Run `npm start` to start a web application
+* At first run `node scraper.js` to scrape the data and to store it to database
+* In a new terminal run `npm start` to start the application
 * Application runs  in the browser on [http://localhost:3000](http://localhost:3000).
 
 ## Running Tests
 
 * `npm test`
+
+## NOTES
+
+* Complexity of algorithm which transforms liner array to tree is O(n)
+* On a FrontEnd side I used `create-react-app` generator, which generates a basic skeleton of React application
+* On the backend side there is used `express`

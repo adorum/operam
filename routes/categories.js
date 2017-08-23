@@ -16,4 +16,16 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.delete('/', function(req, res, next) {
+  Category.deleteMany({}).exec()
+    .then(function() {
+      res.send({
+        message: 'All documents was successfully deleted.'
+      });
+    })
+    .catch(function(err) {
+      return next(err);
+    });
+});
+
 module.exports = router;
