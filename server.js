@@ -12,6 +12,7 @@ var app = express();
 
 require('dotenv').config();
 
+var PORT = 3001;
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -53,8 +54,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-app.set('port', process.env.PORT || 3001);
-
 //Set up default mongoose connection
 var dbUsername = process.env.DATABASE_USERNAME;
 var dbPassword = process.env.DATABASE_PASSWORD;
@@ -66,8 +65,8 @@ mongoose.connect(connectionString, {
   })
   .then(function() {
     console.log('Connection to mongoDB is now alive!');
-    app.listen(app.get('port'), function() {
-      console.log('Express server listening...');
+    app.listen(PORT, function() {
+      console.log(`Express server listening on port ${PORT}...`);
       Category.find({}).exec()
         .then(function(docs) {
           if (!docs.length) {

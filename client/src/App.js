@@ -36,10 +36,15 @@ class App extends Component {
 
   render() {
     if (this.state.errorMessage) {
-      return <div>{this.state.errorMessage}</div>;
+      return <div className="error">{this.state.errorMessage}</div>;
     }
     if (!this.state.filteredData) {
-      return <div>Loading...</div>;
+      return (
+        <div className="loading">
+          <div className="spinner"></div>
+          <span>Loading...</span>
+        </div>
+      );
     }
 
     return (
