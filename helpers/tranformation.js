@@ -2,6 +2,11 @@ var xml2js = require('xml2js');
 
 var attrNumbers = ['synsetid', 'subtree_size', 'num_children'];
 
+/**
+ * Transforms xml string to json object
+ * @param  {[string]} xmlString  Input xml string
+ * @return {[object]}            JSON object
+ */
 exports.transformXmlToJs = function(xmlString) {
   if (xmlString == null) {
     throw new Error('Input parameter can not be null value');
@@ -31,8 +36,11 @@ exports.transformXmlToJs = function(xmlString) {
   });
 }
 
-// source from https://stackoverflow.com/questions/6232753/convert-delimited-string-into-hierarchical-json-with-jquery?answertab=active#tab-top
-// complexity of the algorithm is O(n)
+/**
+ * Transforms flat array structure to tree structure with complexity O(n)
+ * @param  {[arrau]} array    Flat array structure of tree nodes
+ * @return {[array]}          Transformed tree structure
+ */
 exports.tranformArray2tree = function(array) {
   if (array == null || !array.length) {
     throw new Error('Input parameter can not be null or empty array');
@@ -40,31 +48,33 @@ exports.tranformArray2tree = function(array) {
 
   try {
     var output = [];
+    // main loop through the input array
     for (var i = 0; i < array.length; i++) {
-      var chain = array[i].name.split(">").map(x => x.trim());
-      var currentNode = output;
-      for (var j = 0; j < chain.length; j++) {
-        var wantedNode = chain[j];
-        var lastNode = currentNode;
-        for (var k = 0; k < currentNode.length; k++) {
-          if (currentNode[k].name == wantedNode) {
-            currentNode = currentNode[k].children;
-            break;
-          }
-        }
-        // If we couldn't find an item in this list of children
-        // that has the right name, create one:
-        if (lastNode == currentNode) {
-          var newNode = currentNode[k] = {
-            name: wantedNode,
-            size: array[i].size,
+
+      var node = array[i];
+      var path = node.name.split('>').map(x => x.trim());
+
+      // helper var to keep track of current level of tree
+      var currentLevelNodes = output;
+      for (var j = 0; j < path.length; j++) {
+        // try to find a current path in on the current tree level
+        var currentPathNode = currentLevelNodes.find(x => x.name === path[j]);
+        if (!currentPathNode) {
+          // if havent't been found, then create a new node
+          currentLevelNodes.push({
+            name: path[j],
+            size: j === path.length - 1 ? node.size : 0,
             children: []
-          };
-          currentNode = newNode.children;
+          });
+          // on the node is created we need to move the current tree level by one level deeper
+          currentLevelNodes = currentLevelNodes[currentLevelNodes.length - 1].children;
+        } else {
+          // if the node already exists, move the current tree level to its children => 1 level deeper
+          currentPathNode.size = (path.length - 1 === j) ? node.size : currentPathNode.size;
+          currentLevelNodes = currentPathNode.children;
         }
       }
     }
-
     return output;
   } catch (e) {
     throw new Error('Unable to transform array to three structure');
